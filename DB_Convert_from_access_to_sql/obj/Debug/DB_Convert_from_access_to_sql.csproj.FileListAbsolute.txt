@@ -1,0 +1,6 @@
+F:\С#\Progect City\DB_Convert_from_access_to_sql\DB_Convert_from_access_to_sql\bin\Debug\DB_Convert_from_access_to_sql.exe.config
+F:\С#\Progect City\DB_Convert_from_access_to_sql\DB_Convert_from_access_to_sql\bin\Debug\DB_Convert_from_access_to_sql.exe
+F:\С#\Progect City\DB_Convert_from_access_to_sql\DB_Convert_from_access_to_sql\bin\Debug\DB_Convert_from_access_to_sql.pdb
+F:\С#\Progect City\DB_Convert_from_access_to_sql\DB_Convert_from_access_to_sql\obj\Debug\DB_Convert_from_access_to_sql.exe
+F:\С#\Progect City\DB_Convert_from_access_to_sql\DB_Convert_from_access_to_sql\obj\Debug\DB_Convert_from_access_to_sql.pdb
+F:\С#\Progect City\DB_Convert_from_access_to_sql\DB_Convert_from_access_to_sql\obj\Debug\DB_Convert_from_access_to_sql.csprojResolveAssemblyReference.cache
