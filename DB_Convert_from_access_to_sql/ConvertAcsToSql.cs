@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Data;
 using System.Data.Common;
+using System.Collections;
 
 namespace DB_Convert_from_access_to_sql
 {
@@ -130,37 +131,52 @@ namespace DB_Convert_from_access_to_sql
                     SqlCommand commandSql;
                     OleDbDataReader readerOle = commandOle.ExecuteReader();
 
-                    string commandForInsertDate = "INSERT INTO " + tableName + " ( ";
-                    for (int i = 0; i < readerOle.FieldCount; i++)
+                    string sqlExpressionOnlyName = "INSERT INTO " + tableName + " ( ";
+                    for (int i = 1; i < readerOle.FieldCount; i++)
                     {
-                        commandForInsertDate = commandForInsertDate + readerOle.GetName(i) + " , ";
+                        sqlExpressionOnlyName = sqlExpressionOnlyName + readerOle.GetName(i) + " , ";
                         string nextColumnName = readerOle.GetName(i);
                         Console.Write(nextColumnName + ";");
                     }
-                    commandForInsertDate = commandForInsertDate.Remove(commandForInsertDate.Length - 2, 1);
-                    commandForInsertDate = commandForInsertDate + " ) VALUES ( ";
+                    sqlExpressionOnlyName = sqlExpressionOnlyName.Remove(sqlExpressionOnlyName.Length - 2, 1);
+                    sqlExpressionOnlyName = sqlExpressionOnlyName + " ) VALUES ( ";
                     Console.WriteLine(readerOle.FieldCount);
-                    
+
                     while (readerOle.Read())
                     {
-                        /* 
-                        object [] arrobj
+                        string sqlExpressionFinal = sqlExpressionOnlyName;
+                        //int i = 1;
                         for (int i = 1; i < readerOle.FieldCount; i++)
                         {
+                            //ArrayList myArrayList = new ArrayList();
 
-                        КАСТИЛЬ на заповнення 
+                            if (readerOle.GetValue(i) is string)
+                            {
+                                sqlExpressionFinal = sqlExpressionFinal + "'" + readerOle.GetValue(i) + "' , ";
+                            }
+                            else
+                            {
+                                sqlExpressionFinal = sqlExpressionFinal + readerOle.GetValue(i) + " , ";
+                            }
+                            // myArrayList.Add(readerOle.GetValue(i));
+                        }
 
-                        }*/
-                        object id = readerOle.GetValue(0);
-                        object name = readerOle.GetValue(1);
-                        object age = readerOle.GetValue(2);
-                        // string sqlExpression = String.Format("INSERT INTO Users (Name, Age) VALUES ('{0}', {1})", name, age);
-                        commandSql = new SqlCommand(String.Format("INSERT INTO " + tableName +
-                            " (Name, Age) VALUES ('{0}', {1})", name, age), connectionsql);
-                        commandSql.ExecuteNonQuery();
-                        Console.WriteLine("{0} \t{1} \t{2}", id, name, age);
+                            sqlExpressionFinal = sqlExpressionFinal.Remove(sqlExpressionFinal.Length - 2, 1);
+                            sqlExpressionFinal = sqlExpressionFinal + " )";
+
+
+                            object id = readerOle.GetValue(0);
+                            object name = readerOle.GetValue(1);
+                            object age = readerOle.GetValue(2);
+                            // string sqlExpression = String.Format("INSERT INTO Users (Name, Age) VALUES ('{0}', {1})", name, age);
+                            commandSql = new SqlCommand(String.Format(sqlExpressionFinal), connectionsql);
+                            commandSql.ExecuteNonQuery();
+                            // i++;
+                            //Console.WriteLine("{0} \t{1} \t{2}", id, name, age);
+                        
                     }
                     commandSql = new SqlCommand(("SHOW TABLES"), connectionsql);
+                   
                     //readerOle = commandOle.ExecuteReader();
                     //Console.Write();
                 }
